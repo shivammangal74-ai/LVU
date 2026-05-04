@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message For You</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --primary: #c9184a;
+            --secondary: #ffb703;
+            --dark-pink: #590d22;
+            --bg-color: #fffafb;
+            --text-color: #2b2d42;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe3e8 100%);
+            color: var(--text-color);
+            text-align: center;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            z-index: 2;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary);
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .romantic-text {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: var(--dark-pink);
+            font-weight: 300;
+        }
+
+        .scroll-down {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            animation: bounce 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        /* Floating Hearts Animation */
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(201, 24, 74, 0.15);
+            transform: rotate(-45deg);
+            animation: floatUp 6s linear infinite;
+            bottom: -20px;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(201, 24, 74, 0.15);
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -10px; left: 0; }
+        .heart::after { left: 10px; top: 0; }
+
+        /* Beautiful Polaroid Gallery */
+        .gallery-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .photo-card {
+            background: white;
+            padding: 18px 18px 30px 18px;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            transform: rotate(-1deg);
+            transition: all 0.4s ease;
+            border: 1px solid #fbf0f2;
+        }
+
+        .photo-card:nth-child(even) {
+            transform: rotate(1.5deg);
+        }
+
+        .photo-card:hover {
+            transform: scale(1.03) rotate(0deg);
+            box-shadow: 0 20px 40px rgba(201, 24, 74, 0.12);
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 380px;
+            background-color: #ffe5ec;
+            border-radius: 2px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .caption {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: var(--dark-pink);
+            margin-top: 18px;
+            margin-bottom: 0;
+        }
+
+        /* Date Options */
+        .date-options {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+            margin: 35px 0;
+        }
+
+        .date-options td {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            text-align: left;
+            border-left: 5px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .date-options tr:hover td {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(201, 24, 74, 0.05);
+        }
+
+        .option-title {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.15rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .option-desc {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Action Section */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 40px;
+            position: relative;
+            min-height: 80px;
+            align-items: center;
+        }
+
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            padding: 16px 45px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #c9184a, #ff4d6d);
+            color: white;
+            box-shadow: 0 8px 25px rgba(201, 24, 74, 0.35);
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(201, 24, 74, 0.45);
+        }
+
+        .btn-no {
+            background: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #dee2e6;
+            z-index: 10;
+        }
+
+        /* Dynamic Success Window */
+        #successCard {
+            display: none;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border: 1px solid #ffe3e8;
+            margin-top: 30px;
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        #successCard h2 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary);
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); }
+            60% { transform: translateY(-6px); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(-45deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(-45deg); opacity: 0; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.8rem; }
+            .caption { font-size: 1.5rem; }
+            .img-wrapper { height: 280px; }
+            .btn { padding: 14px 30px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <div class="hearts-bg" id="hearts"></div>
+        <div class="container">
+            <h1>Thinking of You...</h1>
+            <p class="romantic-text">Distance feels a little too heavy when it's keeping me away from you. I find myself looking at our memories every single day, waiting for the moment I get to see you again.</p>
+            <div class="scroll-down">Scroll down for a little surprise ↓</div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h1 style="margin-bottom: 40px;">Our Favorite Chapters</h1>
+            
+            <div class="gallery-container">
+                <div class="photo-card">
+                    <div class="img-wrapper">
+                        <img src="photo1.jpg" alt="Our sweet memory">
+                    </div>
+                    <div class="caption">The first time my heart skipped a beat</div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="img-wrapper">
+                        <img src="photo2.jpg" alt="Beautiful memory">
+                    </div>
+                    <div class="caption">The sound of your laugh in this moment...</div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="img-wrapper">
+                        <img src="photo3.jpg" alt="Our special day">
+                    </div>
+                    <div class="caption">When the whole world faded into the background</div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="img-wrapper">
+                        <img src="photo4.jpg" alt="Unforgettable time">
+                    </div>
+                    <div class="caption">Just holding your hand makes everything better</div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="img-wrapper">
+                        <img src="photo5.jpg" alt="Another sweet memory">
+                    </div>
+                    <div class="caption">My absolute favorite place is being next to you</div>
+                </div>
+            </div>
+            
+            <div class="scroll-down" style="color:var(--primary); margin-top: 40px;">Keep scrolling, there's more ↓</div>
+        </div>
+    </section>
+
+    <section style="background-color: #ffffff; border-top: 1px solid #ffe3e8;">
+        <div class="container">
+            <h1>I'm Coming to Gurgaon.</h1>
+            <p class="romantic-text">I want to stop staring at my screen and finally hold your hand. I want to make new memories that we can add to this wall. I've been dreaming about this for a while, and I have a few ideas for us:</p>
+
+            <table class="date-options">
+                <tr>
+                    <td>
+                        <span class="option-title">Option A: The Romantic Classic</span>
+                        <span class="option-desc">A gorgeous candlelit dinner at a beautiful spot where we can just look into each other's eyes and lose track of time.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="option-title">Option B: The City Lights Adventure</span>
+                        <span class="option-desc">A late-night drive together, escaping the noise of the world, exploring the city while listening to our absolute favorite songs.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="option-title">Option C: Cozy & Timeless</span>
+                        <span class="option-desc">Just sitting down in a warm, quiet café, holding coffee in one hand and your hand in the other, without any hurry.</span>
+                    </td>
+                </tr>
+            </table>
+
+            <h2 style="font-family: 'Dancing Script', cursive; color: var(--primary); font-size: 2.5rem; margin: 40px 0 10px;">Will you go on a date with me? 🌹</h2>
+            
+            <div class="btn-group" id="actions">
+                <button onclick="sayYes()" class="btn btn-yes">Yes, Absolutely! ❤️</button>
+                <button id="noButton" onmouseover="moveButton()" onclick="moveButton()" class="btn btn-no">No</button>
+            </div>
+
+            <div id="successCard">
+                <h2>Yay! You said YES!</h2>
+                <p class="romantic-text" style="margin-bottom: 0;">I can't wait to see your smile in person. It's going to be absolutely perfect. Prepare yourself for the best time! ❤️</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Create romantic floating hearts
+        const heartsContainer = document.getElementById('hearts');
+        const heartCount = 15;
+
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.animationDuration = 4 + Math.random() * 4 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        // When she accepts the date
+        function sayYes() {
+            document.getElementById('actions').style.display = 'none';
+            const successCard = document.getElementById('successCard');
+            successCard.style.display = 'block';
+            successCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Moves the "No" button playfully
+        function moveButton() {
+            const btn = document.getElementById('noButton');
+            const alternateTexts = ["Wait... No? 😉", "Nice try!", "Oops!", "Don't think so!", "Error 404!"];
+            const randomText = alternateTexts[Math.floor(Math.random() * alternateTexts.length)];
+            btn.innerText = randomText;
+
+            const maxX = window.innerWidth - btn.clientWidth - 40;
+            const maxY = window.innerHeight - btn.clientHeight - 40;
+
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+
+            btn.style.position = 'fixed';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+        }
+    </script>
+</body>
+</html>
